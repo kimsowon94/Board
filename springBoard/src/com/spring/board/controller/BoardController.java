@@ -45,7 +45,7 @@ public class BoardController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-	/* boardList 異쒕젰�븯�뒗 而⑦듃濡ㅻ윭 */
+	
 	@RequestMapping(value = "board/boardList.do", method = RequestMethod.GET)
 	public String boardList(HttpSession session, HttpServletRequest request,Locale locale, Model model
 			,@RequestParam(defaultValue="1") int pageNo1, PageVo pageVo) throws Exception {
@@ -76,7 +76,7 @@ public class BoardController {
 		 
 		
 		/*============================================*/
-		/* �럹�씠吏� */		
+		
 		int num = boardService.selectBoardCnt();
 		
 		PageVo paging = new PageVo();
@@ -117,7 +117,7 @@ public class BoardController {
 		return "board/boardList";
 	}
 
-	/* boardView 異쒕젰�븯�뒗 而⑦듃濡ㅻ윭 */
+	
 	@RequestMapping(value = "/board/{boardType}/{boardNum}/boardView.do", method = RequestMethod.GET)
 	public String boardView(Locale locale, Model model, @PathVariable("boardType") String boardType,
 			@PathVariable("boardNum") int boardNum, HttpSession session) throws Exception {
@@ -137,6 +137,7 @@ public class BoardController {
 			model.addAttribute("userId", userId);
 		}
 		
+		// 조회수 증가 하게 만드는 구문
 		boardService.boardHitCount(boardNum);
 		
 		String name = userService.searchUserName(boardNum);
@@ -149,7 +150,7 @@ public class BoardController {
 		return "board/boardView";
 	}
 
-	/* boardWrite 酉곕줈 由ы꽩�븯�뒗 而⑦듃濡ㅻ윭 */
+	
 	@RequestMapping(value = "/board/boardWrite.do", method = RequestMethod.GET)
 	public String boardWrite(Locale locale, Model model, HttpSession session) throws Exception {
 
@@ -175,7 +176,7 @@ public class BoardController {
 		return "board/boardWrite";
 	}
 
-	/* board�뿉 湲��쓣 �궫�엯�떆�궎�뒗 而⑦듃濡ㅻ윭 */
+	
 	@RequestMapping(value = "/board/boardWriteAction.do", method = RequestMethod.POST)
 	@ResponseBody
 	public String boardWriteAction(Locale locale, BoardVo boardVo, CodeVo codeVo, Model model, PageVo pageVo) throws Exception {
@@ -206,7 +207,7 @@ public class BoardController {
 		return callbackMsg;
 	}
 
-	/* board 湲��쓣 �궘�젣�븯�뒗 而⑦듃濡ㅻ윭*/
+	
 	@RequestMapping(value = "/board/boardDelete.do", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String boardDelete(Locale locale, int boardNum, String boardType) throws Exception 
@@ -225,7 +226,7 @@ public class BoardController {
 		return callbackMsg;	 
 	}
 	
-	/* 湲��쓣 �닔�젙�븷�븣 �뀒�씠�꽣瑜� 酉곕줈 �쟾�넚�븯�뒗 而⑦듃濡ㅻ윭 */
+	
 	@RequestMapping(value="/board/boardUpdateForm.do", method = RequestMethod.GET)
 	public String boardUpdateForm(int boardNum, HttpServletRequest request, String boardType, Model model, HttpSession session) throws Exception
 	{
@@ -247,7 +248,7 @@ public class BoardController {
 		return "board/boardUpdate";	
 	}
 	
-	/* 湲��쓣 �뾽�뜲�씠�듃 �븯�뒗 而⑦듃濡ㅻ윭 */
+	
 	@RequestMapping(value = "/board/boardUpdate.do", method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
 	public String boardUpdate(Locale locale, BoardVo boardVo, HttpSession session, Model model) throws Exception

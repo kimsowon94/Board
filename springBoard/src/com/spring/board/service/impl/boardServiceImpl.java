@@ -44,7 +44,6 @@ public class boardServiceImpl implements boardService{
 		
 		boardVo.setBoardType(boardType);
 		boardVo.setBoardNum(boardNum);
-//		boardVo.setReadCount(boardNum);
 		
 		return boardDao.selectBoard(boardVo);
 	}

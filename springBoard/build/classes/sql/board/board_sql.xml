@@ -84,7 +84,6 @@
         (#{boardType}
         ,(  SELECT NVL(MAX(BOARD_NUM),0)+1
  			FROM BOARD
- 		    WHERE BOARD_TYPE = #{boardType}
 	    )
         ,#{boardTitle}
         ,#{boardComment}

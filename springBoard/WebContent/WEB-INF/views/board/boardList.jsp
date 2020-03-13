@@ -103,13 +103,13 @@
 						<td align="center">
 							${list.codeName}
 						</td>
-						<td>
+						<td align="center">
 							${list.boardNum}
 						</td>
 						<td>
 							<a href = "/board/${list.boardType}/${list.boardNum}/boardView.do?pageNo1=${pageNo1}">${list.boardTitle}</a>
 						</td>
-						<td>
+						<td align="center">
 							${list.readCount }
 						</td>
 					</tr>	
