@@ -15,9 +15,16 @@ public class BoardVo {
 	private String codeId;
 	private String userName;
 	private String userId;
+	private int readCount;
 
 	
-	/* 추가 행을 위한 배열 선언 =====================*/
+	public int getReadCount() {
+		return readCount;
+	}
+	public void setReadCount(int readCount) {
+		this.readCount = readCount;
+	}
+	/* 異붽� �뻾�쓣 �쐞�븳 諛곗뿴 �꽑�뼵 =====================*/
 	private List<BoardVo> boardVoList;
 	
 	public List<BoardVo> getBoardVoList() {
@@ -61,10 +68,10 @@ public class BoardVo {
 	public void setTotalCnt(int totalCnt) {
 		this.totalCnt = totalCnt;
 	}
-	public int getBoardNum() {
+	public Integer getBoardNum() {
 		return boardNum;
 	}
-	public void setBoardNum(int boardNum) {
+	public void setBoardNum(Integer boardNum) {
 		this.boardNum = boardNum;
 	}
 	public String getBoardType() {

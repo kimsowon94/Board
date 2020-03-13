@@ -25,11 +25,12 @@ public interface boardService {
 		
 	public int boardUpdate(BoardVo boardVo) throws Exception;
 	
+	//게시판 조회수 증가
+	public void boardHitCount(int boardNum) throws Exception;
 
-	//code list 출력하기
 	public List<CodeVo> codeList() throws Exception;
 	
-	// write문에 code name 출력하기
+	
 	public List<CodeVo> codeNameList() throws Exception;
 	
 

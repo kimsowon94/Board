@@ -44,6 +44,7 @@ public class boardServiceImpl implements boardService{
 		
 		boardVo.setBoardType(boardType);
 		boardVo.setBoardNum(boardNum);
+//		boardVo.setReadCount(boardNum);
 		
 		return boardDao.selectBoard(boardVo);
 	}
@@ -53,7 +54,7 @@ public class boardServiceImpl implements boardService{
 		int result = 0;
 		
 		for(BoardVo i : boardVo.getBoardVoList()) {
-			i.setCreator(boardVo.getCreator());
+			/* i.setCreator(boardVo.getCreator()); */
 			
 			result = boardDao.boardInsert(i);
 		}
@@ -102,6 +103,13 @@ public class boardServiceImpl implements boardService{
 		// TODO Auto-generated method stub
 		return boardDao.codeNameList();
 	}
+
+	@Override
+	public void boardHitCount(int boardNum) throws Exception {
+		// TODO Auto-generated method stub
+		 boardDao.boardHitCount(boardNum);
+	}
+
 
 
 }

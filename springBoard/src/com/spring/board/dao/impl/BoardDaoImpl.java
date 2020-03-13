@@ -83,7 +83,15 @@ public class BoardDaoImpl implements BoardDao{
 		return sqlSession.selectList("board.codeNameList");
 	}
 
-	
+	@Override
+	public void boardHitCount(int boardNum) throws Exception {
+		// TODO Auto-generated method stub
+		sqlSession.update("board.boardHitCount", boardNum);
+	}
+
+
+
+
 
 
 	

@@ -12,6 +12,7 @@
     	<result property="creator" column="CREATOR"/>
     	<result property="userName" column="USER_NAME"/>
     	<result property="userId" column="USER_ID"/>
+    	<result property="readCount" column="READ_COUNT"/>
     </resultMap>
     
     <resultMap type="com.spring.board.vo.CodeVo" id="codeVo">
@@ -28,6 +29,7 @@
 		  ,BOARD_TITLE
 		  ,BOARD_COMMENT
 		  ,TOTAL_CNT
+		  ,READ_COUNT
 		FROM 
 		(
 		  SELECT
@@ -38,6 +40,7 @@
 				,BOARD_COMMENT
 		      	,ROW_NUMBER() OVER(ORDER BY BOARD_NUM DESC) AS NUMROW
 		      	,COUNT(*) OVER() AS TOTAL_CNT
+		      	,READ_COUNT
 			FROM
 				BOARD, COM_CODE
 			<trim prefix="WHERE" prefixOverrides="AND|OR">
@@ -76,7 +79,7 @@
     
     <insert id="boardInsert" parameterType="com.spring.board.vo.BoardVo">
         INSERT INTO 
-        BOARD(BOARD_TYPE, BOARD_NUM, BOARD_TITLE, BOARD_COMMENT, CREATOR ,CREATE_TIME ,MODIFIER ,MODIFIED_TIME)
+        BOARD(BOARD_TYPE, BOARD_NUM, BOARD_TITLE, BOARD_COMMENT, CREATOR ,CREATE_TIME ,MODIFIER ,MODIFIED_TIME,READ_COUNT)
         VALUES
         (#{boardType}
         ,(  SELECT NVL(MAX(BOARD_NUM),0)+1
@@ -89,6 +92,7 @@
         ,TO_CHAR(SYSDATE)
         ,#{creator}
         ,TO_CHAR(SYSDATE)
+        ,0
         )
     </insert>
     
@@ -137,6 +141,12 @@
     		 , CODE_ID
 		FROM COM_CODE
     </select>
+    
+    <update id="boardHitCount" parameterType="int">
+    	UPDATE BOARD
+    	SET READ_COUNT = READ_COUNT + 1
+    	WHERE BOARD_NUM = #{BOARD_NUM}    	
+    </update>
 
     
     

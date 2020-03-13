@@ -94,6 +94,9 @@
 					<td width="300" align="center">
 						Title
 					</td>
+					<td width="70" align="center">
+						Count
+					</td>
 				</tr>
 				<c:forEach items="${boardList}" var="list">
 					<tr>
@@ -105,6 +108,9 @@
 						</td>
 						<td>
 							<a href = "/board/${list.boardType}/${list.boardNum}/boardView.do?pageNo1=${pageNo1}">${list.boardTitle}</a>
+						</td>
+						<td>
+							${list.readCount }
 						</td>
 					</tr>	
 				</c:forEach>

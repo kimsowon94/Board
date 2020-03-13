@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.board.HomeController;
 import com.spring.board.dao.BoardDao;
+import com.spring.board.dao.impl.BoardDaoImpl;
 import com.spring.board.service.UserService;
 import com.spring.board.service.boardService;
 import com.spring.board.vo.BoardVo;
@@ -44,12 +45,12 @@ public class BoardController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-	/* boardList 출력하는 컨트롤러 */
+	/* boardList 異쒕젰�븯�뒗 而⑦듃濡ㅻ윭 */
 	@RequestMapping(value = "board/boardList.do", method = RequestMethod.GET)
 	public String boardList(HttpSession session, HttpServletRequest request,Locale locale, Model model
 			,@RequestParam(defaultValue="1") int pageNo1, PageVo pageVo) throws Exception {
 		
-		String[] codeId = request.getParameterValues("codeId"); 	// 여러개의 codeId 를 받기위해 getParameterValues를 사용
+		String[] codeId = request.getParameterValues("codeId"); 	
 		
 		if(codeId != null)
 		{
@@ -60,11 +61,10 @@ public class BoardController {
 		}
 		
 		List<CodeVo> codeList = new ArrayList<CodeVo>(); 
-		codeList =	boardService.codeList();   // List 밑에 codeName 체크박스를 출력하기 위해 필요
+		codeList =	boardService.codeList();   
 				
 		
 		List<BoardVo> boardList = new ArrayList<BoardVo>();
-	
 		
 		int page = 1; 
 		int totalCnt = 0;
@@ -76,7 +76,7 @@ public class BoardController {
 		 
 		
 		/*============================================*/
-		/* 페이징 */		
+		/* �럹�씠吏� */		
 		int num = boardService.selectBoardCnt();
 		
 		PageVo paging = new PageVo();
@@ -87,21 +87,20 @@ public class BoardController {
 		
 		model.addAttribute("paging", paging);
 		/*============================================*/
-		// session확인하기
+		// session�솗�씤�븯湲�
 		String userId=(String) session.getAttribute("userId");
 		
 		if(userId != null)
 		{
 			String userName = userService.searchName(userId);
 			
-			System.out.println("session이름 : " + userName);
+			System.out.println("session�씠由� : " + userName);
 			model.addAttribute("userName", userName);
 			
 			
 		}
 		
 		model.addAttribute("sessionId", userId);
-	
 	
 		
 		pageVo.setCodeId(codeId);
@@ -118,7 +117,7 @@ public class BoardController {
 		return "board/boardList";
 	}
 
-	/* boardView 출력하는 컨트롤러 */
+	/* boardView 異쒕젰�븯�뒗 而⑦듃濡ㅻ윭 */
 	@RequestMapping(value = "/board/{boardType}/{boardNum}/boardView.do", method = RequestMethod.GET)
 	public String boardView(Locale locale, Model model, @PathVariable("boardType") String boardType,
 			@PathVariable("boardNum") int boardNum, HttpSession session) throws Exception {
@@ -126,19 +125,19 @@ public class BoardController {
 		BoardVo boardVo = new BoardVo();
 
 		boardVo = boardService.selectBoard(boardType, boardNum);
-		// session확인하기
+		// session
 		String userId=(String) session.getAttribute("userId");
 		
 		if(userId != null)
 		{
 			String userName = userService.searchName(userId);
 			
-			System.out.println("유저네임 확인(view에서 확인) : " + userName);
+			
 			model.addAttribute("userName", userName);
 			model.addAttribute("userId", userId);
 		}
 		
-		
+		boardService.boardHitCount(boardNum);
 		
 		String name = userService.searchUserName(boardNum);
 		
@@ -150,7 +149,7 @@ public class BoardController {
 		return "board/boardView";
 	}
 
-	/* boardWrite 뷰로 리턴하는 컨트롤러 */
+	/* boardWrite 酉곕줈 由ы꽩�븯�뒗 而⑦듃濡ㅻ윭 */
 	@RequestMapping(value = "/board/boardWrite.do", method = RequestMethod.GET)
 	public String boardWrite(Locale locale, Model model, HttpSession session) throws Exception {
 
@@ -160,14 +159,14 @@ public class BoardController {
 
 		model.addAttribute("codeList", codeList);
 		
-		// session확인하기
+		// session�솗�씤�븯湲�
 		String userId=(String) session.getAttribute("userId");
 		
 		if(userId != null)
 		{
 			String userName = userService.searchName(userId);
 			
-			System.out.println("유저네임 확인 : " + userName);
+			System.out.println("�쑀���꽕�엫 �솗�씤 : " + userName);
 			model.addAttribute("userName", userName);
 			model.addAttribute("userId", userId);
 			
@@ -176,7 +175,7 @@ public class BoardController {
 		return "board/boardWrite";
 	}
 
-	/* board에 글을 삽입시키는 컨트롤러 */
+	/* board�뿉 湲��쓣 �궫�엯�떆�궎�뒗 而⑦듃濡ㅻ윭 */
 	@RequestMapping(value = "/board/boardWriteAction.do", method = RequestMethod.POST)
 	@ResponseBody
 	public String boardWriteAction(Locale locale, BoardVo boardVo, CodeVo codeVo, Model model, PageVo pageVo) throws Exception {
@@ -207,7 +206,7 @@ public class BoardController {
 		return callbackMsg;
 	}
 
-	/* board 글을 삭제하는 컨트롤러*/
+	/* board 湲��쓣 �궘�젣�븯�뒗 而⑦듃濡ㅻ윭*/
 	@RequestMapping(value = "/board/boardDelete.do", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String boardDelete(Locale locale, int boardNum, String boardType) throws Exception 
@@ -226,7 +225,7 @@ public class BoardController {
 		return callbackMsg;	 
 	}
 	
-	/* 글을 수정할때 테이터를 뷰로 전송하는 컨트롤러 */
+	/* 湲��쓣 �닔�젙�븷�븣 �뀒�씠�꽣瑜� 酉곕줈 �쟾�넚�븯�뒗 而⑦듃濡ㅻ윭 */
 	@RequestMapping(value="/board/boardUpdateForm.do", method = RequestMethod.GET)
 	public String boardUpdateForm(int boardNum, HttpServletRequest request, String boardType, Model model, HttpSession session) throws Exception
 	{
@@ -235,7 +234,7 @@ public class BoardController {
 
 		codeList = boardService.codeList();
 		
-		// session확인하기
+		// session�솗�씤�븯湲�
 		String userId = (String) session.getAttribute("userId");
 
 		if (userId != null) {
@@ -248,7 +247,7 @@ public class BoardController {
 		return "board/boardUpdate";	
 	}
 	
-	/* 글을 업데이트 하는 컨트롤러 */
+	/* 湲��쓣 �뾽�뜲�씠�듃 �븯�뒗 而⑦듃濡ㅻ윭 */
 	@RequestMapping(value = "/board/boardUpdate.do", method = {RequestMethod.POST,RequestMethod.GET})
 	@ResponseBody
 	public String boardUpdate(Locale locale, BoardVo boardVo, HttpSession session, Model model) throws Exception
