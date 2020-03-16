@@ -6,6 +6,26 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>boardWrite</title>
+<!-- 주소찾기 api -->
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script type="text/javascript">
+function openDaumZipAddress() {
+
+	new daum.Postcode({
+
+		oncomplete:function(data) {
+
+			$j("#userAddr1").val(data.zonecode);
+
+			$j("#userAddr2").val(data.address);
+
+			console.log(data);
+
+		}
+
+	}).open();
+}
+</script> 
 <script type="text/javascript">
 	
 	$j(document).ready(function() {
@@ -468,7 +488,7 @@
 						<tr>
 							<td width="120" align="center">POSTNO</td>
 							<td width="400"><input name="userAddr1" id="userAddr1"
-								type="text" size="20"></td>
+								type="text" size="20"> <input type="button" name="searchBtn" id="searchBtn" value="주소찾기" onclick="openDaumZipAddress()"></td>
 						</tr>
 
 						<tr>
