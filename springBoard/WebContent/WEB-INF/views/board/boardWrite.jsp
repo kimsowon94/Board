@@ -79,24 +79,23 @@
 			row += "</td>";
 			row += "<tr>";
 			row += "<td align='right'>";
-			row += "<input id='delBtn" + num + "' type='button' value='행삭제' onclick='fnDelRow(" + num + ")'></td>";
+			row += "<input id='delBtn delBtn" + num + "' type='button' value='행삭제' onclick='fnDelRow(" + num + ")'></td>";
 			row += "</tr>";
 			row += "</td>";
 			
+			$j("#addTable").append(row);	
 			
-			$j("#addTable").append(row);
-			
-			
-				
 		});	
 
-	
 	});
 	
 	function fnDelRow(val){
+		
 		//라인 삭제
 		$j("#addWrite" + val).remove();
 		$j("#delBtn" + val).remove();
+
+		
 	}
 </script>
 <body>

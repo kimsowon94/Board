@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>boardView</title>
 <script type="text/javascript">
+
 $j(document).ready(function(){
 	
 	$j("#deleteBtn").on("click",function(e){
